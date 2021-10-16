@@ -21,7 +21,7 @@ int mode = 1;
 int countPositions;
 int inputNumber;
 int password = 1234;
-int storePin=0;
+int storePin;
 int countInputButton;
 
 void setup()
@@ -52,15 +52,35 @@ void loop()
         {
           countPositions++;
           countPositions = countPositions % 5;
+       Serial.println(countPositions);
           if (countPositions == 0)
           {
             countPositions = 1;
           }
-          inputNumber = 0;
+           switch (countPositions)
+          {
+            case 1:
+              storePin += inputNumber * 1000;
+              Serial.println(storePin);
+              break;
+            case 2:
+              storePin += inputNumber * 100;
+              Serial.println(storePin);
+              break;
+            case 3:
+              storePin += inputNumber * 10;
+              Serial.println(storePin);
+              break;
+            case 4:
+              storePin += inputNumber * 1;
+              Serial.println(storePin);
+              break;
+          }
         }
         delay(150);
         confirmLastState = CONFIRM_BUTTON;
       }
+
     }
   }
   if (INPUT_NUMBERS != inputLastState)
@@ -69,17 +89,17 @@ void loop()
     if (INPUT_NUMBERS == LOW)
     {
       inputNumber++;
-      inputNumber = inputNumber % 5;
+      inputNumber = inputNumber % 6;
       if (inputNumber == 0)
       {
         inputNumber = 1;
       }
     }
-     Serial.println(storePin);
     if (inputNumber == 1)Display.showCharAt(countPositions, '1');
     if (inputNumber == 2)Display.showCharAt(countPositions, '2');
     if (inputNumber == 3)Display.showCharAt(countPositions, '3');
     if (inputNumber == 4)Display.showCharAt(countPositions, '4');
+    if (inputNumber == 5)Display.showCharAt(countPositions, '5');
     delay(150);
     inputLastState = INPUT_NUMBERS;
   }
