@@ -51,13 +51,13 @@ void loop()
         if (CONFIRM_BUTTON == LOW)
         {
           countPositions++;
-          countPositions = countPositions % 5;
-       Serial.println(countPositions);
+          countPositions = countPositions % 6;
+          Serial.println(countPositions);
           if (countPositions == 0)
           {
             countPositions = 1;
           }
-           switch (countPositions)
+          switch (countPositions)
           {
             case 1:
               storePin += inputNumber * 1000;
@@ -76,6 +76,25 @@ void loop()
               Serial.println(storePin);
               break;
           }
+              if (storePin != password && countPositions == 5)
+              {
+                Serial.println("I am not in");
+                Display.show("----");
+                storePin = 0;
+                countInputButton = 0;
+                countPositions = 0;
+                digitalWrite(RED_LED, HIGH);
+              }
+               if (storePin == password && countPositions == 5)
+              {
+                Serial.println("I am in");
+                digitalWrite(GREEN_LED, HIGH);
+                Display.show("----");
+                storePin = 0;
+                countInputButton = 0;
+                countPositions = 0;
+              }
+              inputNumber = 0;
         }
         delay(150);
         confirmLastState = CONFIRM_BUTTON;
